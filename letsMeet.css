@@ -1,0 +1,43 @@
+		* {
+	margin: 0;
+	padding: 0;
+		}
+ 
+		header, menu, content, footer {
+			display: block;
+		}
+ 
+		menu ul {
+			list-style-type: none;
+		
+		}
+ 
+		menu ul li {
+			/*float: left;*/
+			padding: 5px 20px;
+		}
+ 
+		content, footer {
+			clear: both;
+		}
+
+		#debugInfo{
+			font-family:monospace;
+			
+		
+		}
+#bStart {
+	background-color: #093;
+	font-size: 18px;
+	color: #FFF;
+}
+#bStop {
+	font-size: 18px;
+	color: #FFF;
+	background-color: #F00;
+}
+#bNewGame {
+	font-size: 18px;
+	color: #FFF;
+	background-color: #36F;
+}
