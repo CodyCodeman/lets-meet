@@ -1,163 +1,144 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Lets Meet</title>
-	<meta charset="utf-8" />
-	<script src="letsMeetClasses.js"></script>
-	<script src="letsMeet.js"></script>
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
-	<link type="text/css" rel="stylesheet" charset="UTF-8" href="letsMeet.css">
-	<link href="SpryAssets/SpryCollapsiblePanel.css" rel="stylesheet" type="text/css">
-	<style type="text/css">
-	body {
-	background-color: #999;
-}
-    </style>
+    <head>
+        <title>Lets Meet</title>
+        <meta charset="utf-8" />
+        <script src="letsMeetClasses.js"></script>
+        <script src="letsMeet.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="letsMeet.css">
+    </head>
+    <body>
+        <header>
+            <h1>Lets Meet</h1>
+            <button id="bStart" onClick="frozen=false;">Start Simulation</button>
+            <button id="bStop" onClick="frozen=true; animate();">Stop Simulation</button>
+            <button id="bStartOver" onClick="newGame();">Reset</button>
+        </header>
+        <div id="settings" class="settings">
+            <h1>Options<i class="bCollapse"></i></h1>
+            <div class="content">
+                <div class="setting-group">
+                    <h2>Playground</h2>
+                    <div class="setting">
+                        <label>Height</label>
+                        <input name="" type="text" id="playgroundHeight" onChange="updateSimSettings();" value="600" size="5" maxlength="3"/>
+                    </div>
+                    <div class="setting">
+                        <label>Width</label>
+                        <input type="text" id="playgroundWidth" value="600" size ="5" maxlength="4"/>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox"onChange="updateSimSettings();" name="cbShowGridlines" id="cbShowGridlines">
+                        <label>Show gridlines</label>
+                    </div>
+                </div>
 
-</head>
-<body>
-	<header>
-		<h1>Lets Meet</h1>
+                <div class="setting-group">
+                    <h2>Simulation</h2>
+                    <div class="setting">
+                        <label>Number of teams<label>
+                        <input type="text" id="numTeams"onChange="updateSimSettings();" value="5" size ="3" maxlength="2" />
+                    </div>
+                    <div class="setting">
+                        <label>Number of bots per team</label>
+                        <input type="text" id="numBots" value="5" onChange="updateSimSettings();" size ="3" maxlength="2" />
+                    </div>
+                    <div class="setting">
+                        <label>Extra travel time</label>
+                        <input name="tExtraTravelTime" type="text" id="tExtraTravelTime"onChange="updateSimSettings();" value="10" size="3" maxlength="2">
+                    </div>
+                    <div class="setting">
+                        <label>Meet wait time</label>
+                        <input name="tMeetWaitTime"type="text" id="tMeetWaitTime" onChange="updateSimSettings();" value="10" size="3" maxlength="2">
+                    </div>
+                    <div class="setting">
+                        <label>Meeting length</label>
+                        <input name="tMeetingLength" type="text" id="tMeetingLength"onChange="updateSimSettings();" value="30" size="3" maxlength="2">
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" name="cbMeetNoShowBots" id="cbMeetNoShowBots">
+                        <label>Meet with no show bots</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" name="cbMeetTeamMembers" id="cbMeetTeamMembers">
+                        <label>Meet with team members</label>
+                    </div>
+                </div>
 
+                <div class="setting-group">
+                    <h2>Bots</h2>
+                    <div class="setting">
+                        <label>Size</label>
+                        <input name="tBotSize" type="text" id="tBotSize" onChange="updateSimSettings();" value="9" size="3" maxlength="2">
+                        (prefers odd numbers)
+                    </div>
+                </div>
 
-	</header>
+                <div class="setting-group">
+                    <h2>Display</h2>
+                    <div class="setting">
+                        <input type="checkbox"onChange="updateSimSettings();" checked="checked" name="cbShowBotStatus" id="cbShowBotStatus">
+                        <label>Show bot statuses</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox"onChange="updateSimSettings();" name="cbShowBotStatusColors" id="cbShowBotStatusColors">
+                        <label>Show bot status colors</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" name="cbShowBotNumbers" onChange="updateSimSettings();"id="cbShowBotNumbers">
+                        <label>Show bot numbers</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" name="cbShowMeetingConnectors" onChange="updateSimSettings();"id="cbShowMeetingConnectors">
+                        <label>Show Meeting Connectors</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" name="cbShowBotNames" checked="true" onChange="updateSimSettings();"id="cbShowBotNames">
+                        <label>Show bot names</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        <footer>
+            LetsMeet Simulator by CodyCodeman
+        </footer>
+        <script type="text/javascript">
+            window.requestAnimFrame = (function(callback){
+                return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+            })();
 
-	<content>
-	<div id="settings">
-		<h2>
-		  <input name="bNewGame" type="button" id="bNewGame" onClick="newGame();" value="Start New Game">
-          <input name="bStart" type="button" id="bStart" onClick="frozen=false;" value="Play">
-          <input name="bStop" type="button" id="bStop" onClick="frozen=true; animate();" value="Stop">
-        </h2>
-		<div id="CollapsiblePanel1" class="CollapsiblePanel">
-		  <div class="CollapsiblePanelTab" tabindex="0">Simulator Options</div>
-		  <div class="CollapsiblePanelContent">
-		    <p>Playground: Height:
-		      <input name="" type="text" id="playgroundHeight" onChange="updateSimSettings();" value="600" size ="5" maxlength="3"/>
-X Width:
- <input type="text" id="playgroundWidth" value="600" size ="5" maxlength="4"/>
-		    <input type="checkbox"onChange="updateSimSettings();" name="cbShowGridlines" id="cbShowGridlines">
-		    Show gridlines</p>
-		    <p>&nbsp;</p>
-		    <p>Simulation: Number of teams
-              <input type="text" id="numTeams"onChange="updateSimSettings();" value="5" size ="3" maxlength="2" />
-Number of bots per team
-<input type="text" id="numBots" value="5" onChange="updateSimSettings();" size ="3" maxlength="2" />
-            </p>
-		    <p>&nbsp;</p>
-		    <p>Extra travel time
-		      <input name="tExtraTravelTime" type="text" id="tExtraTravelTime"onChange="updateSimSettings();" value="10" size="3" maxlength="2">
-		    Meet wait time
-		      <input name="tMeetWaitTime"type="text" id="tMeetWaitTime" onChange="updateSimSettings();" value="10" size="3" maxlength="2">
-            Meeting length
-		      <input name="tMeetingLength" type="text" id="tMeetingLength"onChange="updateSimSettings();" value="30" size="3" maxlength="2">
-            </p>
-		    <p>
-		      <input type="checkbox" name="cbMeetNoShowBots" id="cbMeetNoShowBots">
-		      Meet with no show bots
-		      </p>
-		      <p>
-		      <input type="checkbox" name="cbMeetTeamMembers" id="cbMeetTeamMembers">
-Meet with team members </p>
-		    <p>Bots: Bot Size
-		      <input name="tBotSize"type="text" id="tBotSize" onChange="updateSimSettings();" value="9" size="3" maxlength="2">
-(prefers odd numbers)</p>
-            <p>
-              <input type="checkbox"onChange="updateSimSettings();" checked="checked" name="cbShowBotStatus" id="cbShowBotStatus">
-              Show bot statuses
-              </p>
-              <p>
-  <input type="checkbox"onChange="updateSimSettings();" name="cbShowBotStatusColors" id="cbShowBotStatusColors">
-              Show bot status colors</p>
-              <p>
-  <input type="checkbox" name="cbShowBotNumbers" onChange="updateSimSettings();"id="cbShowBotNumbers">
-            Show bot numbers</p>
+            var playground = new Playground(1,1,1,1,4.5);
 
+            var frozen = false;
 
-               <p>
-  <input type="checkbox" name="cbShowMeetingConnectors" onChange="updateSimSettings();"id="cbShowMeetingConnectors">
-            Show Meeting Connectors<img src="new.gif" width="30" height="30"/></p>
-
-             <p>
-  <input type="checkbox" name="cbShowBotNames" checked="true" onChange="updateSimSettings();"id="cbShowBotNames">
-            Show bot names<img src="new.gif" width="30" height="30"/></p>
-            <p></p>
-
-		    <p>&nbsp;</p>
-            <p>&nbsp;</p>
-		  </div>
-	  </div>
-	  <p>&nbsp;</p><br/>
-		<p>
-		  <canvas id="canvas"></canvas>
-		</p>
-	  </div>
-		<div id="sidebar">
-		<menu>
-			<ul>
-			<li></li>
-
-			</ul>
-
-
-		</menu>
-
-	</div>
-	</content>
-
-	<footer>
-		Copyleft 2012 - Codezilla
-	</footer>
-<script type="text/javascript">
-var CollapsiblePanel1 = new Spry.Widget.CollapsiblePanel("CollapsiblePanel1");
-
-
-window.requestAnimFrame = (function(callback){
-    return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function(callback){
-        window.setTimeout(callback, 1000 / 60);
-    };
-})();
-
-var playground = new Playground(1,1,1,1,4.5);
-
-var frozen = false;
-
-function animate(){
-	if(!frozen){
-
-
-	    // draw
-	 	playground.advanceFrame();
-	    // request new frame
-	    requestAnimFrame(function(){
-	        animate();
-	    });
-	}//end if not frozen
-}
-
-	/*var interval;
-	function animate(){
-		if(!frozen){
-		    playground.advanceFrame();
-		interval = setInterval(animate(), 1000 / 30);
-		    // draw
-		 	//playground.advanceFrame();
-		    // request new frame
-		    //requestAnimFrame(function(){
-		      //  animate();
-		   // });
-		}//end if not frozen
-	}*/
-
-
-    </script>
-</body>
+            function animate(){
+                if(!frozen){
+                    //update bot positions for next frame
+                    playground.advanceFrame();
+                    //draw next frame
+                    requestAnimFrame(function(){
+                        animate();
+                    });
+                }
+            }
+            $(document).ready(function(){
+                $('.settings > h1 > i').click(function(){
+                    $(this).closest('.settings').toggleClass('closed');
+                })
+            })
+        </script>
+    </body>
 </html>
 
 

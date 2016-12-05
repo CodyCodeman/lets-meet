@@ -1,43 +1,96 @@
-		* {
-	margin: 0;
-	padding: 0;
-		}
- 
-		header, menu, content, footer {
-			display: block;
-		}
- 
-		menu ul {
-			list-style-type: none;
-		
-		}
- 
-		menu ul li {
-			/*float: left;*/
-			padding: 5px 20px;
-		}
- 
-		content, footer {
-			clear: both;
-		}
+body{
+    font-family: "HelvetiaNeue";
+    background-color: #999;
+}
 
-		#debugInfo{
-			font-family:monospace;
-			
-		
-		}
+header{
+    margin-bottom: 20px;
+}
+
+i{
+    font-style: normal;
+}
+
+.canvas-container{
+    text-align: center;
+}
+
+.settings{
+    color: black;
+    background: #fff;
+    border-bottom: 10px solid white;
+    margin-bottom: 20px;
+}
+
+.settings .setting-group:first-child{
+    margin-top: 5px;
+}
+
+.settings h1{
+    margin: 0 auto;
+    background: #ccc;
+    padding: 5px;
+
+}
+
+.settings h1 i{
+    float: right;
+    margin-right: 15px;
+}
+
+.settings h1 i:after{
+    content: "\25BC";
+}
+
+.settings.closed .content{
+    display: none;
+}
+
+.settings.closed h1 i:after{
+    content: "\25BA";
+}
+
+.settings .content{
+    padding: 10px;
+}
+
+.setting-group{
+    border: 2px solid #ccc;
+    margin: 20px auto;
+}
+
+.setting-group h2{
+    margin: 0 auto;
+    background: #ccc;
+}
+
+.setting{
+    padding: 5px;
+}
+
+.setting label{
+
+}
+
+.setting input{
+
+}
+
+#debugInfo{
+    font-family: monospace;
+}
 #bStart {
-	background-color: #093;
-	font-size: 18px;
-	color: #FFF;
+    background-color: #093;
+    font-size: 18px;
+    color: #fff;
 }
 #bStop {
-	font-size: 18px;
-	color: #FFF;
-	background-color: #F00;
+    font-size: 18px;
+    color: #fff;
+    background-color: #f00;
 }
-#bNewGame {
-	font-size: 18px;
-	color: #FFF;
-	background-color: #36F;
+#bStartOver {
+    font-size: 18px;
+    color: #fff;
+    background-color: #36F;
 }
