@@ -3,10 +3,7 @@
     <head>
         <title>Lets Meet</title>
         <meta charset="utf-8" />
-        <script src="letsMeetClasses.js"></script>
-        <script src="letsMeet.js"></script>
-        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <link type="text/css" rel="stylesheet" href="letsMeet.css">
+        <link type="text/css" rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <header>
@@ -70,7 +67,7 @@
                     <h2>Bots</h2>
                     <div class="setting">
                         <label>Size</label>
-                        <input name="tBotSize" type="text" id="tBotSize" onChange="updateSimSettings();" value="9" size="3" maxlength="2">
+                        <input name="tBotSize" type="text" id="tBotSize" onChange="updateSimSettings();" value="51" size="3" maxlength="2">
                         (prefers odd numbers)
                     </div>
                 </div>
@@ -106,37 +103,31 @@
         <footer>
             LetsMeet Simulator by CodyCodeman
         </footer>
-        <script type="text/javascript">
-            window.requestAnimFrame = (function(callback){
-                return window.requestAnimationFrame ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame ||
-                window.oRequestAnimationFrame ||
-                window.msRequestAnimationFrame ||
-                function(callback){
-                    window.setTimeout(callback, 1000 / 60);
-                };
-            })();
+
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="js/functions.js"></script>
+        <script src="js/Bot.js"></script>
+        <script src="js/Playground.js"></script>
+        <script src="js/GridLocation.js"></script>
+        <script src="js/Meeting.js"></script>
+        <script src="js/PixelLocation.js"></script>
+        <script src="js/Sprite.js"></script>
+        <script src="js/Team.js"></script>
+        <script src="js/Translation.js"></script>
+        <script src="js/Location.js"></script>
+        <script src="js/MarioSprite.js"></script>
+
+        <script>
 
             var playground = new Playground(1,1,1,1,4.5);
 
-            var frozen = false;
-
-            function animate(){
-                if(!frozen){
-                    //update bot positions for next frame
-                    playground.advanceFrame();
-                    //draw next frame
-                    requestAnimFrame(function(){
-                        animate();
-                    });
-                }
-            }
             $(document).ready(function(){
                 $('.settings > h1 > i').click(function(){
                     $(this).closest('.settings').toggleClass('closed');
                 })
             })
+
+            playground.play();
         </script>
     </body>
 </html>
